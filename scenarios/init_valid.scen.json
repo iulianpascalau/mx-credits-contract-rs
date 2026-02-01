@@ -1,6 +1,6 @@
 {
   "name": "Initialize contract with valid exchange rate",
-  "comment": "Deploy the contract with numRequestsPerEgld = 100",
+  "comment": "Deploy the contract with numCreditsPerEgld = 100",
   "steps": [
     {
       "step": "setState",
@@ -14,7 +14,7 @@
         {
           "creatorAddress": "address:owner",
           "creatorNonce": "0",
-          "newAddress": "sc:requests"
+          "newAddress": "sc:credits"
         }
       ]
     },
@@ -23,7 +23,7 @@
       "txId": "deploy",
       "tx": {
         "from": "address:owner",
-        "contractCode": "mxsc:../output/requests.mxsc.json",
+        "contractCode": "mxsc:../output/credits.mxsc.json",
         "arguments": [
           "100"
         ],

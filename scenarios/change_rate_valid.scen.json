@@ -14,7 +14,7 @@
         {
           "creatorAddress": "address:owner",
           "creatorNonce": "0",
-          "newAddress": "sc:requests"
+          "newAddress": "sc:credits"
         }
       ]
     },
@@ -23,7 +23,7 @@
       "txId": "deploy",
       "tx": {
         "from": "address:owner",
-        "contractCode": "mxsc:../output/requests.mxsc.json",
+        "contractCode": "mxsc:../output/credits.mxsc.json",
         "arguments": [
           "100"
         ],
@@ -35,8 +35,8 @@
       "step": "scQuery",
       "txId": "check_initial_rate",
       "tx": {
-        "to": "sc:requests",
-        "function": "getRequestsPerEgld",
+        "to": "sc:credits",
+        "function": "getCreditsPerEgld",
         "arguments": []
       },
       "expect": {
@@ -51,8 +51,8 @@
       "txId": "change_rate",
       "tx": {
         "from": "address:owner",
-        "to": "sc:requests",
-        "function": "changeNumRequestsPerEGLD",
+        "to": "sc:credits",
+        "function": "changeNumCreditsPerEGLD",
         "arguments": [
           "200"
         ],
@@ -64,10 +64,10 @@
         "status": "0",
         "logs": [
           {
-            "address": "sc:requests",
-            "endpoint": "str:changeNumRequestsPerEGLD",
+            "address": "sc:credits",
+            "endpoint": "str:changeNumCreditsPerEGLD",
             "topics": [
-              "str:changeNumRequestsPerEGLD",
+              "str:changeNumCreditsPerEGLD",
               "100"
             ],
             "data": "*"
@@ -79,8 +79,8 @@
       "step": "scQuery",
       "txId": "check_updated_rate",
       "tx": {
-        "to": "sc:requests",
-        "function": "getRequestsPerEgld",
+        "to": "sc:credits",
+        "function": "getCreditsPerEgld",
         "arguments": []
       },
       "expect": {

@@ -1,6 +1,6 @@
 {
-  "name": "Add requests when contract is paused",
-  "comment": "User tries to add requests when contract is paused, should fail",
+  "name": "Add credits when contract is paused",
+  "comment": "User tries to add credits when contract is paused, should fail",
   "steps": [
     {
       "step": "setState",
@@ -18,7 +18,7 @@
         {
           "creatorAddress": "address:owner",
           "creatorNonce": "0",
-          "newAddress": "sc:requests"
+          "newAddress": "sc:credits"
         }
       ]
     },
@@ -27,7 +27,7 @@
       "txId": "deploy",
       "tx": {
         "from": "address:owner",
-        "contractCode": "mxsc:../output/requests.mxsc.json",
+        "contractCode": "mxsc:../output/credits.mxsc.json",
         "arguments": [
           "100"
         ],
@@ -40,7 +40,7 @@
       "txId": "pause",
       "tx": {
         "from": "address:owner",
-        "to": "sc:requests",
+        "to": "sc:credits",
         "function": "pause",
         "arguments": [],
         "gasLimit": "5000000",
@@ -52,11 +52,11 @@
     },
     {
       "step": "scCall",
-      "txId": "add_requests",
+      "txId": "add_credits",
       "tx": {
         "from": "address:user",
-        "to": "sc:requests",
-        "function": "addRequests",
+        "to": "sc:credits",
+        "function": "addCredits",
         "arguments": [
           "42"
         ],

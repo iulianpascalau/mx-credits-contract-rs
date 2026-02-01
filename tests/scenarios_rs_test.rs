@@ -4,28 +4,28 @@ fn world() -> ScenarioWorld {
     let mut blockchain = ScenarioWorld::new();
 
     blockchain.set_current_dir_from_workspace("");
-    blockchain.register_contract("mxsc:output/requests.mxsc.json", requests::ContractBuilder);
+    blockchain.register_contract("mxsc:output/credits.mxsc.json", credits::ContractBuilder);
     blockchain
 }
 
 #[test]
-fn add_requests_accumulation_rs() {
-    world().run("scenarios/add_requests_accumulation.scen.json");
+fn add_credits_accumulation_rs() {
+    world().run("scenarios/add_credits_accumulation.scen.json");
 }
 
 #[test]
-fn add_requests_multiple_rs() {
-    world().run("scenarios/add_requests_multiple.scen.json");
+fn add_credits_multiple_rs() {
+    world().run("scenarios/add_credits_multiple.scen.json");
 }
 
 #[test]
-fn add_requests_single_rs() {
-    world().run("scenarios/add_requests_single.scen.json");
+fn add_credits_single_rs() {
+    world().run("scenarios/add_credits_single.scen.json");
 }
 
 #[test]
-fn add_requests_when_paused_rs() {
-    world().run("scenarios/add_requests_when_paused.scen.json");
+fn add_credits_when_paused_rs() {
+    world().run("scenarios/add_credits_when_paused.scen.json");
 }
 
 #[test]
@@ -49,13 +49,13 @@ fn full_workflow_rs() {
 }
 
 #[test]
-fn get_requests_existing_rs() {
-    world().run("scenarios/get_requests_existing.scen.json");
+fn get_credits_existing_rs() {
+    world().run("scenarios/get_credits_existing.scen.json");
 }
 
 #[test]
-fn get_requests_nonexistent_rs() {
-    world().run("scenarios/get_requests_nonexistent.scen.json");
+fn get_credits_nonexistent_rs() {
+    world().run("scenarios/get_credits_nonexistent.scen.json");
 }
 
 #[test]

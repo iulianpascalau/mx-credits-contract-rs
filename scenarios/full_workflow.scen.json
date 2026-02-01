@@ -1,6 +1,6 @@
 {
   "name": "Full workflow test",
-  "comment": "Complete workflow: deploy, add requests, query, change rate, withdraw",
+  "comment": "Complete workflow: deploy, add credits, query, change rate, withdraw",
   "steps": [
     {
       "step": "setState",
@@ -22,7 +22,7 @@
         {
           "creatorAddress": "address:owner",
           "creatorNonce": "0",
-          "newAddress": "sc:requests"
+          "newAddress": "sc:credits"
         }
       ]
     },
@@ -31,7 +31,7 @@
       "txId": "deploy",
       "tx": {
         "from": "address:owner",
-        "contractCode": "mxsc:../output/requests.mxsc.json",
+        "contractCode": "mxsc:../output/credits.mxsc.json",
         "arguments": [
           "100"
         ],
@@ -44,8 +44,8 @@
       "txId": "user1_add_1",
       "tx": {
         "from": "address:user1",
-        "to": "sc:requests",
-        "function": "addRequests",
+        "to": "sc:credits",
+        "function": "addCredits",
         "arguments": [
           "1"
         ],
@@ -62,8 +62,8 @@
       "txId": "user2_add",
       "tx": {
         "from": "address:user2",
-        "to": "sc:requests",
-        "function": "addRequests",
+        "to": "sc:credits",
+        "function": "addCredits",
         "arguments": [
           "2"
         ],
@@ -79,8 +79,8 @@
       "step": "scQuery",
       "txId": "query_user1",
       "tx": {
-        "to": "sc:requests",
-        "function": "getRequests",
+        "to": "sc:credits",
+        "function": "getCredits",
         "arguments": [
           "1"
         ]
@@ -95,8 +95,8 @@
       "step": "scQuery",
       "txId": "query_user2",
       "tx": {
-        "to": "sc:requests",
-        "function": "getRequests",
+        "to": "sc:credits",
+        "function": "getCredits",
         "arguments": [
           "2"
         ]
@@ -112,8 +112,8 @@
       "txId": "change_rate",
       "tx": {
         "from": "address:owner",
-        "to": "sc:requests",
-        "function": "changeNumRequestsPerEGLD",
+        "to": "sc:credits",
+        "function": "changeNumCreditsPerEGLD",
         "arguments": [
           "150"
         ],
@@ -129,8 +129,8 @@
       "txId": "user1_add_2",
       "tx": {
         "from": "address:user1",
-        "to": "sc:requests",
-        "function": "addRequests",
+        "to": "sc:credits",
+        "function": "addCredits",
         "arguments": [
           "1"
         ],
@@ -146,8 +146,8 @@
       "step": "scQuery",
       "txId": "query_user1_after_rate_change",
       "tx": {
-        "to": "sc:requests",
-        "function": "getRequests",
+        "to": "sc:credits",
+        "function": "getCredits",
         "arguments": [
           "1"
         ]
@@ -163,7 +163,7 @@
       "txId": "withdraw",
       "tx": {
         "from": "address:owner",
-        "to": "sc:requests",
+        "to": "sc:credits",
         "function": "withdrawAll",
         "arguments": [],
         "gasLimit": "5000000",

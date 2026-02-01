@@ -1,6 +1,6 @@
 {
   "name": "Pause and Unpause workflow",
-  "comment": "Owner checks pause affects adding requests, then unpauses",
+  "comment": "Owner checks pause affects adding credits, then unpauses",
   "steps": [
     {
       "step": "setState",
@@ -18,7 +18,7 @@
         {
           "creatorAddress": "address:owner",
           "creatorNonce": "0",
-          "newAddress": "sc:requests"
+          "newAddress": "sc:credits"
         }
       ]
     },
@@ -27,7 +27,7 @@
       "txId": "deploy",
       "tx": {
         "from": "address:owner",
-        "contractCode": "mxsc:../output/requests.mxsc.json",
+        "contractCode": "mxsc:../output/credits.mxsc.json",
         "arguments": [
           "100"
         ],
@@ -42,7 +42,7 @@
       "step": "scQuery",
       "txId": "check_initially_not_paused",
       "tx": {
-        "to": "sc:requests",
+        "to": "sc:credits",
         "function": "isPaused",
         "arguments": []
       },
@@ -57,7 +57,7 @@
       "txId": "pause",
       "tx": {
         "from": "address:owner",
-        "to": "sc:requests",
+        "to": "sc:credits",
         "function": "pause",
         "arguments": [],
         "gasLimit": "5000000",
@@ -71,7 +71,7 @@
       "step": "scQuery",
       "txId": "check_paused",
       "tx": {
-        "to": "sc:requests",
+        "to": "sc:credits",
         "function": "isPaused",
         "arguments": []
       },
@@ -86,8 +86,8 @@
       "txId": "add_fail",
       "tx": {
         "from": "address:user",
-        "to": "sc:requests",
-        "function": "addRequests",
+        "to": "sc:credits",
+        "function": "addCredits",
         "arguments": [
           "1"
         ],
@@ -105,7 +105,7 @@
       "txId": "unpause",
       "tx": {
         "from": "address:owner",
-        "to": "sc:requests",
+        "to": "sc:credits",
         "function": "unpause",
         "arguments": [],
         "gasLimit": "5000000",
@@ -119,7 +119,7 @@
       "step": "scQuery",
       "txId": "check_unpaused",
       "tx": {
-        "to": "sc:requests",
+        "to": "sc:credits",
         "function": "isPaused",
         "arguments": []
       },
@@ -134,8 +134,8 @@
       "txId": "add_success",
       "tx": {
         "from": "address:user",
-        "to": "sc:requests",
-        "function": "addRequests",
+        "to": "sc:credits",
+        "function": "addCredits",
         "arguments": [
           "1"
         ],

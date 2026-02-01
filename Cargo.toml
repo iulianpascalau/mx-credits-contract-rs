@@ -1,5 +1,5 @@
 [package]
-name = "requests"
+name = "credits"
 version = "0.0.0"
 authors = ["Andrei Marinica <andrei.marinica@multiversx.com>"]
 edition = "2021"

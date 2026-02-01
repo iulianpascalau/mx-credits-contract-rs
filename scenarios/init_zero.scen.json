@@ -1,6 +1,6 @@
 {
   "name": "Initialize contract with zero exchange rate",
-  "comment": "Deploy should fail when numRequestsPerEgld = 0",
+  "comment": "Deploy should fail when numCreditsPerEgld = 0",
   "steps": [
     {
       "step": "setState",
@@ -14,7 +14,7 @@
         {
           "creatorAddress": "address:owner",
           "creatorNonce": "0",
-          "newAddress": "sc:requests"
+          "newAddress": "sc:credits"
         }
       ]
     },
@@ -23,7 +23,7 @@
       "txId": "deploy",
       "tx": {
         "from": "address:owner",
-        "contractCode": "mxsc:../output/requests.mxsc.json",
+        "contractCode": "mxsc:../output/credits.mxsc.json",
         "arguments": [
           "0"
         ],
@@ -33,7 +33,7 @@
       "expect": {
         "out": [],
         "status": "4",
-        "message": "str:Number of requests per EGLD must be non-zero"
+        "message": "str:Number of credits per EGLD must be non-zero"
       }
     }
   ]
