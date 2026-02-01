@@ -1,6 +1,6 @@
 {
-  "name": "Change exchange rate affects future requests only",
-  "comment": "Changing rate should not affect previously acquired requests",
+  "name": "Change exchange rate affects future credits only",
+  "comment": "Changing rate should not affect previously acquired credits",
   "steps": [
     {
       "step": "setState",
@@ -18,7 +18,7 @@
         {
           "creatorAddress": "address:owner",
           "creatorNonce": "0",
-          "newAddress": "sc:requests"
+          "newAddress": "sc:credits"
         }
       ]
     },
@@ -27,7 +27,7 @@
       "txId": "deploy",
       "tx": {
         "from": "address:owner",
-        "contractCode": "mxsc:../output/requests.mxsc.json",
+        "contractCode": "mxsc:../output/credits.mxsc.json",
         "arguments": [
           "100"
         ],
@@ -37,11 +37,11 @@
     },
     {
       "step": "scCall",
-      "txId": "add_requests_1",
+      "txId": "add_credits_1",
       "tx": {
         "from": "address:user",
-        "to": "sc:requests",
-        "function": "addRequests",
+        "to": "sc:credits",
+        "function": "addCredits",
         "arguments": [
           "42"
         ],
@@ -57,8 +57,8 @@
       "step": "scQuery",
       "txId": "query_before",
       "tx": {
-        "to": "sc:requests",
-        "function": "getRequests",
+        "to": "sc:credits",
+        "function": "getCredits",
         "arguments": [
           "42"
         ]
@@ -74,8 +74,8 @@
       "txId": "change_rate",
       "tx": {
         "from": "address:owner",
-        "to": "sc:requests",
-        "function": "changeNumRequestsPerEGLD",
+        "to": "sc:credits",
+        "function": "changeNumCreditsPerEGLD",
         "arguments": [
           "200"
         ],
@@ -88,11 +88,11 @@
     },
     {
       "step": "scCall",
-      "txId": "add_requests_2",
+      "txId": "add_credits_2",
       "tx": {
         "from": "address:user",
-        "to": "sc:requests",
-        "function": "addRequests",
+        "to": "sc:credits",
+        "function": "addCredits",
         "arguments": [
           "42"
         ],
@@ -108,8 +108,8 @@
       "step": "scQuery",
       "txId": "query_after",
       "tx": {
-        "to": "sc:requests",
-        "function": "getRequests",
+        "to": "sc:credits",
+        "function": "getCredits",
         "arguments": [
           "42"
         ]

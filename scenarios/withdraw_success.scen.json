@@ -18,7 +18,7 @@
         {
           "creatorAddress": "address:owner",
           "creatorNonce": "0",
-          "newAddress": "sc:requests"
+          "newAddress": "sc:credits"
         }
       ]
     },
@@ -27,7 +27,7 @@
       "txId": "deploy",
       "tx": {
         "from": "address:owner",
-        "contractCode": "mxsc:../output/requests.mxsc.json",
+        "contractCode": "mxsc:../output/credits.mxsc.json",
         "arguments": [
           "100"
         ],
@@ -37,11 +37,11 @@
     },
     {
       "step": "scCall",
-      "txId": "add_requests",
+      "txId": "add_credits",
       "tx": {
         "from": "address:user",
-        "to": "sc:requests",
-        "function": "addRequests",
+        "to": "sc:credits",
+        "function": "addCredits",
         "arguments": [
           "42"
         ],
@@ -58,7 +58,7 @@
       "txId": "withdraw",
       "tx": {
         "from": "address:owner",
-        "to": "sc:requests",
+        "to": "sc:credits",
         "function": "withdrawAll",
         "arguments": [],
         "gasLimit": "5000000",

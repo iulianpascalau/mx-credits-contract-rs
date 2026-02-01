@@ -14,7 +14,7 @@
         {
           "creatorAddress": "address:owner",
           "creatorNonce": "0",
-          "newAddress": "sc:requests"
+          "newAddress": "sc:credits"
         }
       ]
     },
@@ -23,7 +23,7 @@
       "txId": "deploy",
       "tx": {
         "from": "address:owner",
-        "contractCode": "mxsc:../output/requests.mxsc.json",
+        "contractCode": "mxsc:../output/credits.mxsc.json",
         "arguments": [
           "100"
         ],
@@ -36,7 +36,7 @@
       "txId": "pause",
       "tx": {
         "from": "address:owner",
-        "to": "sc:requests",
+        "to": "sc:credits",
         "function": "pause",
         "arguments": [],
         "gasLimit": "5000000",
@@ -47,7 +47,7 @@
         "status": "0",
         "logs": [
           {
-            "address": "sc:requests",
+            "address": "sc:credits",
             "endpoint": "str:pause",
             "topics": [
               "str:pause"

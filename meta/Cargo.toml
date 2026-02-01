@@ -1,10 +1,10 @@
 [package]
-name = "requests-meta"
+name = "credits-meta"
 version = "0.0.0"
 edition = "2021"
 publish = false
 
-[dependencies.requests]
+[dependencies.credits]
 path = ".."
 
 [dependencies.multiversx-sc-meta-lib]

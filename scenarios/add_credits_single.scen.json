@@ -1,6 +1,6 @@
 {
-  "name": "Get requests for existing user",
-  "comment": "Query requests for a user that has been credited",
+  "name": "Add credits for a single user",
+  "comment": "User sends 1 EGLD, should receive 100 credits (100 * 1 EGLD)",
   "steps": [
     {
       "step": "setState",
@@ -11,14 +11,14 @@
         },
         "address:user": {
           "nonce": "0",
-          "balance": "2100000000000000000"
+          "balance": "2000000000000000000"
         }
       },
       "newAddresses": [
         {
           "creatorAddress": "address:owner",
           "creatorNonce": "0",
-          "newAddress": "sc:requests"
+          "newAddress": "sc:credits"
         }
       ]
     },
@@ -27,7 +27,7 @@
       "txId": "deploy",
       "tx": {
         "from": "address:owner",
-        "contractCode": "mxsc:../output/requests.mxsc.json",
+        "contractCode": "mxsc:../output/credits.mxsc.json",
         "arguments": [
           "100"
         ],
@@ -37,35 +37,48 @@
     },
     {
       "step": "scCall",
-      "txId": "add_requests",
+      "txId": "add_credits",
       "tx": {
         "from": "address:user",
-        "to": "sc:requests",
-        "function": "addRequests",
+        "to": "sc:credits",
+        "function": "addCredits",
         "arguments": [
-          "99"
+          "42"
         ],
-        "value": "2000000000000000000",
+        "value": "1000000000000000000",
         "gasLimit": "5000000",
         "gasPrice": "1000000000"
       },
       "expect": {
-        "status": "0"
+        "out": [],
+        "status": "0",
+        "logs": [
+          {
+            "address": "sc:credits",
+            "endpoint": "str:addCredits",
+            "topics": [
+              "str:addCredits",
+              "42",
+              "1000000000000000000"
+            ],
+            "data": "*"
+          }
+        ]
       }
     },
     {
       "step": "scQuery",
-      "txId": "query",
+      "txId": "query_credits",
       "tx": {
-        "to": "sc:requests",
-        "function": "getRequests",
+        "to": "sc:credits",
+        "function": "getCredits",
         "arguments": [
-          "99"
+          "42"
         ]
       },
       "expect": {
         "out": [
-          "200"
+          "100"
         ]
       }
     }

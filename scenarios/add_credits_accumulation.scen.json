@@ -1,6 +1,6 @@
 {
-  "name": "Add requests for multiple users",
-  "comment": "Different users add requests, each should have independent balances",
+  "name": "Add credits accumulation for same user",
+  "comment": "Same user adds credits multiple times, balance should accumulate",
   "steps": [
     {
       "step": "setState",
@@ -9,20 +9,16 @@
           "nonce": "0",
           "balance": "1000000000000000000"
         },
-        "address:user1": {
+        "address:user": {
           "nonce": "0",
-          "balance": "2000000000000000000"
-        },
-        "address:user2": {
-          "nonce": "0",
-          "balance": "3000000000000000000"
+          "balance": "5000000000000000000"
         }
       },
       "newAddresses": [
         {
           "creatorAddress": "address:owner",
           "creatorNonce": "0",
-          "newAddress": "sc:requests"
+          "newAddress": "sc:credits"
         }
       ]
     },
@@ -31,7 +27,7 @@
       "txId": "deploy",
       "tx": {
         "from": "address:owner",
-        "contractCode": "mxsc:../output/requests.mxsc.json",
+        "contractCode": "mxsc:../output/credits.mxsc.json",
         "arguments": [
           "100"
         ],
@@ -41,13 +37,13 @@
     },
     {
       "step": "scCall",
-      "txId": "user1_add",
+      "txId": "add_first",
       "tx": {
-        "from": "address:user1",
-        "to": "sc:requests",
-        "function": "addRequests",
+        "from": "address:user",
+        "to": "sc:credits",
+        "function": "addCredits",
         "arguments": [
-          "1"
+          "42"
         ],
         "value": "1000000000000000000",
         "gasLimit": "5000000",
@@ -58,31 +54,13 @@
       }
     },
     {
-      "step": "scCall",
-      "txId": "user2_add",
-      "tx": {
-        "from": "address:user2",
-        "to": "sc:requests",
-        "function": "addRequests",
-        "arguments": [
-          "2"
-        ],
-        "value": "2000000000000000000",
-        "gasLimit": "5000000",
-        "gasPrice": "1000000000"
-      },
-      "expect": {
-        "status": "0"
-      }
-    },
-    {
       "step": "scQuery",
-      "txId": "query_user1",
+      "txId": "query_first",
       "tx": {
-        "to": "sc:requests",
-        "function": "getRequests",
+        "to": "sc:credits",
+        "function": "getCredits",
         "arguments": [
-          "1"
+          "42"
         ]
       },
       "expect": {
@@ -92,18 +70,36 @@
       }
     },
     {
-      "step": "scQuery",
-      "txId": "query_user2",
+      "step": "scCall",
+      "txId": "add_second",
       "tx": {
-        "to": "sc:requests",
-        "function": "getRequests",
+        "from": "address:user",
+        "to": "sc:credits",
+        "function": "addCredits",
         "arguments": [
-          "2"
+          "42"
+        ],
+        "value": "500000000000000000",
+        "gasLimit": "5000000",
+        "gasPrice": "1000000000"
+      },
+      "expect": {
+        "status": "0"
+      }
+    },
+    {
+      "step": "scQuery",
+      "txId": "query_second",
+      "tx": {
+        "to": "sc:credits",
+        "function": "getCredits",
+        "arguments": [
+          "42"
         ]
       },
       "expect": {
         "out": [
-          "200"
+          "150"
         ]
       }
     }

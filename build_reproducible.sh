@@ -23,6 +23,6 @@ python3 "${SCRIPT_NAME}" \
   --project="$(pwd)" \
   --output="$(pwd)/output" \
   --no-docker-interactive \
-  --contract=requests
+  --contract=credits
 
 echo "Build complete. Artifacts are in $(pwd)/output"
