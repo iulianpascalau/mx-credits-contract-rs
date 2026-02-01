@@ -7,19 +7,19 @@
     },
     "buildOptions": {
         "packageWholeProjectSrc": true,
-        "specificContract": "requests",
+        "specificContract": "credits",
         "cargoTargetDir": "/rust/cargo-target-dir",
         "noWasmOpt": false,
         "buildRootFolder": "/tmp/project"
     },
     "contracts": {
-        "requests": {
+        "credits": {
             "version": "0.0.0",
-            "codehash": "1e8c9ef47f3f3f00b58b48075411edab699126c8ee9ff69f53827dfcf2eecf0a",
+            "codehash": "1216d2ff4d4c5a84c898f8692dc2b055bbcab220a239abb40e6b8f4926e591b2",
             "artifacts": {
-                "bytecode": "requests.wasm",
-                "abi": "requests.abi.json",
-                "srcPackage": "requests-0.0.0.source.json"
+                "bytecode": "credits.wasm",
+                "abi": "credits.abi.json",
+                "srcPackage": "credits-0.0.0.source.json"
             }
         }
     }

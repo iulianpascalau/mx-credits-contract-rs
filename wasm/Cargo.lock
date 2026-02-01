@@ -21,6 +21,21 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5c8214115b7bf84099f1309324e63141d4c5d7cc26862f97a0a857dbefe165bd"
 
 [[package]]
+name = "credits"
+version = "0.0.0"
+dependencies = [
+ "multiversx-sc",
+]
+
+[[package]]
+name = "credits-wasm"
+version = "0.0.0"
+dependencies = [
+ "credits",
+ "multiversx-sc-wasm-adapter",
+]
+
+[[package]]
 name = "endian-type"
 version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -164,21 +179,6 @@ checksum = "c069c179fcdc6a2fe24d8d18305cf085fdbd4f922c041943e203685d6a1c58fd"
 dependencies = [
  "endian-type",
  "nibble_vec",
-]
-
-[[package]]
-name = "requests"
-version = "0.0.0"
-dependencies = [
- "multiversx-sc",
-]
-
-[[package]]
-name = "requests-wasm"
-version = "0.0.0"
-dependencies = [
- "multiversx-sc-wasm-adapter",
- "requests",
 ]
 
 [[package]]

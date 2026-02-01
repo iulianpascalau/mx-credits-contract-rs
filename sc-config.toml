@@ -1,4 +1,4 @@
 [settings]
 
 [[proxy]]
-path = "src/credits_proxy.rs"
+path = "src/credits.rs"
