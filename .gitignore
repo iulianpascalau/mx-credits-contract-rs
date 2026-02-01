@@ -16,4 +16,4 @@
 .env.local
 *.pem
 *.key
-/output
+/output/
