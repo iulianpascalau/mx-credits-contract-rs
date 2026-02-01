@@ -1,0 +1,25 @@
+name = "credits"
+contract_trait = "Credits contract"
+src_file = "credits.rs"
+rename_pairs = [
+    [
+        "blockchain.set_current_dir_from_workspace(\"contracts/examples/credits\");",
+        "// blockchain.set_current_dir_from_workspace(\"relative path to your workspace, if applicable\");",
+    ],
+]
+files_include = [
+    "meta",
+    "scenarios",
+    "src",
+    "tests",
+    "Cargo.toml",
+    "README.md",
+    "sc-config.toml",
+    "multiversx.json",
+    "interactor/Cargo.toml",
+    "interactor/config.toml",
+    "interactor/.gitignore",
+    "interactor/src",
+    "interactor/tests",
+]
+has_interactor = true
