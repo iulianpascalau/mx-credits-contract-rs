@@ -1,3 +1,3 @@
 fn main() {
-    multiversx_sc_meta_lib::cli_main::<requests::AbiProvider>();
+    multiversx_sc_meta_lib::cli_main::<credits::AbiProvider>();
 }
