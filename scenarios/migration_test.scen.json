@@ -293,6 +293,57 @@
                     "200"
                 ]
             }
+        },
+        {
+            "step": "scCall",
+            "comment": "re-run migrate to assure that we do not re-add the values",
+            "txId": "migrate",
+            "tx": {
+                "from": "address:owner",
+                "to": "sc:requests_contract",
+                "function": "migrate",
+                "arguments": [
+                    "0x01",
+                    "0x64"
+                ],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "status": "0"
+            }
+        },
+        {
+            "step": "scQuery",
+            "txId": "check_user1_migrated",
+            "tx": {
+                "to": "sc:requests_contract",
+                "function": "getCredits",
+                "arguments": [
+                    "0x01"
+                ]
+            },
+            "expect": {
+                "out": [
+                    "200"
+                ]
+            }
+        },
+        {
+            "step": "scQuery",
+            "txId": "check_user2_migrated",
+            "tx": {
+                "to": "sc:requests_contract",
+                "function": "getCredits",
+                "arguments": [
+                    "0x02"
+                ]
+            },
+            "expect": {
+                "out": [
+                    "200"
+                ]
+            }
         }
     ]
 }
