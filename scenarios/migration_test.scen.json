@@ -139,7 +139,7 @@
             "comment": "Upgrade to new contract",
             "tx": {
                 "from": "address:owner",
-                "contractCode": "file:../output/credits.wasm",
+                "contractCode": "mxsc:../output/credits.mxsc.json",
                 "upgrade": true,
                 "to": "sc:requests_contract",
                 "arguments": [
@@ -158,7 +158,7 @@
             "accounts": {
                 "sc:requests_contract": {
                     "owner": "address:owner",
-                    "code": "file:../output/credits.wasm",
+                    "code": "mxsc:../output/credits.mxsc.json",
                     "storage": {
                         "str:numCreditsPerEgld": "100",
                         "str:requests|u64:1": "100",

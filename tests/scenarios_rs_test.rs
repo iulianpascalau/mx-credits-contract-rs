@@ -1,4 +1,4 @@
-use multiversx_sc_scenario::imports::*;
+use multiversx_sc_scenario::*;
 
 mod requests_stub {
     use multiversx_sc::imports::*;
@@ -38,7 +38,7 @@ fn world() -> ScenarioWorld {
 
     blockchain.set_current_dir_from_workspace("");
     blockchain.register_contract("file:scenarios/requests_contract/requests/requests.wasm", requests_stub::ContractBuilder);
-    blockchain.register_contract("file:output/credits.wasm", credits::ContractBuilder);
+    blockchain.register_contract("mxsc:output/credits.mxsc.json", credits::ContractBuilder);
 
     blockchain
 }
