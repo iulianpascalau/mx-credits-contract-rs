@@ -148,20 +148,13 @@ pub trait CreditsContract {
             if old_val > BigUint::zero() {
                  self.acquired_credits(&id).update(|credits| *credits += old_val.clone());
                  self.old_requests(&id).clear();
-            } else {
-                self.migration_finished_event(&id);
-                break;
             }
         }
     }
 
     /// Storage mapper for the old requests
-    #[storage_mapper("requests")]
+    #[storage_mapper("acquiredRequests")]
     fn old_requests(&self, id: &u64) -> SingleValueMapper<BigUint>;
-
-    /// Event emitted when migration finishes early (encounters an empty ID)
-    #[event("migrationFinished")]
-    fn migration_finished_event(&self, #[indexed] last_checked_id: &u64);
 
     /// Event emitted when credits are added
     #[event("addCredits")]

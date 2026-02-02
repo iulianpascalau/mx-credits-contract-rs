@@ -161,8 +161,8 @@
                     "code": "mxsc:../output/credits.mxsc.json",
                     "storage": {
                         "str:numCreditsPerEgld": "100",
-                        "str:requests|u64:1": "100",
-                        "str:requests|u64:2": "200"
+                        "str:acquiredRequests|u64:1": "100",
+                        "str:acquiredRequests|u64:2": "200"
                     }
                 }
             }
