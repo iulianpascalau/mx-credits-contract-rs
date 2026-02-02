@@ -6,9 +6,9 @@
 
 // Init:                                 1
 // Upgrade:                              1
-// Endpoints:                            2
+// Endpoints:                            9
 // Async Callback (empty):               1
-// Total number of exported functions:   5
+// Total number of exported functions:  12
 
 #![no_std]
 
@@ -16,12 +16,19 @@ multiversx_sc_wasm_adapter::allocator!();
 multiversx_sc_wasm_adapter::panic_handler!();
 
 multiversx_sc_wasm_adapter::endpoints! {
-    adder
+    credits
     (
         init => init
         upgrade => upgrade
-        getSum => sum
-        add => add
+        addCredits => add_credits
+        getCredits => get_credits
+        isPaused => get_is_paused
+        getCreditsPerEgld => get_credits_per_egld
+        changeNumCreditsPerEGLD => change_num_credits_per_egld
+        pause => pause
+        unpause => unpause
+        withdrawAll => withdraw_all
+        migrate => migrate
     )
 }
 

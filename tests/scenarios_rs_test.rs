@@ -1,10 +1,45 @@
-use multiversx_sc_scenario::*;
+use multiversx_sc_scenario::imports::*;
+
+mod requests_stub {
+    use multiversx_sc::imports::*;
+
+    #[multiversx_sc::contract]
+    pub trait RequestsStub {
+        #[init]
+        fn init(&self, rate: BigUint) {
+            self.rate().set(rate);
+        }
+
+        #[payable("EGLD")]
+        #[endpoint(addRequests)]
+        fn add_requests(&self, id: u64) {
+            let payment = self.call_value().egld();
+            let rate = self.rate().get();
+            let one_egld = BigUint::from(1_000_000_000_000_000_000u64);
+            let val = (payment.clone_value() * rate) / one_egld;
+            self.requests(&id).update(|v| *v += val);
+        }
+
+        #[view(getRequests)]
+        fn get_requests(&self, id: u64) -> BigUint {
+            self.requests(&id).get()
+        }
+
+        #[storage_mapper("requests")]
+        fn requests(&self, id: &u64) -> SingleValueMapper<BigUint>;
+
+        #[storage_mapper("rate")]
+        fn rate(&self) -> SingleValueMapper<BigUint>;
+    }
+}
 
 fn world() -> ScenarioWorld {
     let mut blockchain = ScenarioWorld::new();
 
     blockchain.set_current_dir_from_workspace("");
-    blockchain.register_contract("mxsc:output/credits.mxsc.json", credits::ContractBuilder);
+    blockchain.register_contract("file:scenarios/requests_contract/requests/requests.wasm", requests_stub::ContractBuilder);
+    blockchain.register_contract("file:output/credits.wasm", credits::ContractBuilder);
+
     blockchain
 }
 
@@ -121,4 +156,9 @@ fn withdraw_non_owner_rs() {
 #[test]
 fn withdraw_success_rs() {
     world().run("scenarios/withdraw_success.scen.json");
+}
+
+#[test]
+fn migration_test_rs() {
+    world().run("scenarios/migration_test.scen.json");
 }

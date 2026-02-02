@@ -134,6 +134,35 @@ pub trait CreditsContract {
         self.withdraw_event(&owner, &contract_balance);
     }
 
+    /// Migrate from old requests (requests keyed by ID) to new acquired_credits.
+    /// Can only be called by the owner.
+    #[endpoint(migrate)]
+    fn migrate(&self, start: u64, end: u64) {
+        let caller = self.blockchain().get_caller();
+        let owner = self.blockchain().get_owner_address();
+        require!(caller == owner, "Only the owner can migrate");
+        require!(self.is_paused().get(), "Contract must be paused to migrate");
+
+        for id in start..=end {
+            let old_val = self.old_requests(&id).get();
+            if old_val > BigUint::zero() {
+                 self.acquired_credits(&id).update(|credits| *credits += old_val.clone());
+                 self.old_requests(&id).clear();
+            } else {
+                self.migration_finished_event(&id);
+                break;
+            }
+        }
+    }
+
+    /// Storage mapper for the old requests
+    #[storage_mapper("requests")]
+    fn old_requests(&self, id: &u64) -> SingleValueMapper<BigUint>;
+
+    /// Event emitted when migration finishes early (encounters an empty ID)
+    #[event("migrationFinished")]
+    fn migration_finished_event(&self, #[indexed] last_checked_id: &u64);
+
     /// Event emitted when credits are added
     #[event("addCredits")]
     fn add_credits_event(
