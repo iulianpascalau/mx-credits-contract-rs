@@ -3,20 +3,20 @@
 use multiversx_sc::imports::*;
 
 #[multiversx_sc::contract]
-pub trait CreditsContract {
-    /// Constructor - initializes the contract with the number of credits per EGLD
+pub trait RequestsContract {
+    /// Constructor - initializes the contract with the number of requests per EGLD
     #[init]
-    fn init(&self, num_credits_per_egld: BigUint) {
-        require!(num_credits_per_egld > 0, "Number of credits per EGLD must be non-zero");
-        self.num_credits_per_egld().set(num_credits_per_egld);
+    fn init(&self, num_requests_per_egld: BigUint) {
+        require!(num_requests_per_egld > 0, "Number of requests per EGLD must be non-zero");
+        self.num_requests_per_egld().set(num_requests_per_egld);
         self.is_paused().set(false);
     }
 
     /// Upgrade function - called when contract is upgraded
     #[upgrade]
-    fn upgrade(&self, num_credits_per_egld: BigUint) {
-        require!(num_credits_per_egld > 0, "Number of credits per EGLD must be non-zero");
-        self.num_credits_per_egld().set(num_credits_per_egld);
+    fn upgrade(&self, num_requests_per_egld: BigUint) {
+        require!(num_requests_per_egld > 0, "Number of requests per EGLD must be non-zero");
+        self.num_requests_per_egld().set(num_requests_per_egld);
         if !self.is_paused().is_empty() {
             // is_paused already exists, keep current value
         } else {
@@ -25,12 +25,12 @@ pub trait CreditsContract {
         }
     }
 
-    /// Add acquired credits for a given ID - payable only in EGLD
-    /// The number of acquired credits added = (EGLD amount transferred in regular units) * num_credits_per_egld
-    /// Example: 2.5 EGLD * 100 rate = 250 acquired credits
+    /// Add acquired requests for a given ID - payable only in EGLD
+    /// The number of acquired requests added = (EGLD amount transferred in regular units) * num_requests_per_egld
+    /// Example: 2.5 EGLD * 100 rate = 250 acquired requests
     #[payable("EGLD")]
-    #[endpoint(addCredits)]
-    fn add_credits(&self, id: u64) {
+    #[endpoint(addRequests)]
+    fn add_requests(&self, id: u64) {
         require!(!self.is_paused().get(), "Contract is paused");
 
         let payment = self.call_value().egld();
@@ -41,20 +41,20 @@ pub trait CreditsContract {
         // Convert from wei to EGLD (1 EGLD = 10^18 wei)
         let one_egld = BigUint::from(1_000_000_000_000_000_000u64);
 
-        let num_credits_per_egld = self.num_credits_per_egld().get();
-        let credits_to_add = (amount_wei.clone() * &num_credits_per_egld) / one_egld;
+        let num_requests_per_egld = self.num_requests_per_egld().get();
+        let requests_to_add = (amount_wei.clone() * &num_requests_per_egld) / one_egld;
 
-        self.acquired_credits(&id).update(|credits| *credits += credits_to_add.clone());
+        self.acquired_requests(&id).update(|requests| *requests += requests_to_add.clone());
 
-        self.add_credits_event(&id, &amount_wei, &credits_to_add);
+        self.add_requests_event(&id, &amount_wei, &requests_to_add);
     }
 
 
-    /// Get the number of acquired credits for a given ID
+    /// Get the number of acquired requests for a given ID
     /// Returns 0 if the ID was not credited
-    #[view(getCredits)]
-    fn get_credits(&self, id: u64) -> BigUint {
-        self.acquired_credits(&id).get()
+    #[view(getRequests)]
+    fn get_requests(&self, id: u64) -> BigUint {
+        self.acquired_requests(&id).get()
     }
 
     /// Check if the contract is paused
@@ -63,30 +63,30 @@ pub trait CreditsContract {
         self.is_paused().get()
     }
 
-    /// Get the number of credits per EGLD
-    #[view(getCreditsPerEgld)]
-    fn get_credits_per_egld(&self) -> BigUint {
-        self.num_credits_per_egld().get()
+    /// Get the number of requests per EGLD
+    #[view(getRequestsPerEgld)]
+    fn get_requests_per_egld(&self) -> BigUint {
+        self.num_requests_per_egld().get()
     }
 
 
-    /// Change the number of credits per EGLD
+    /// Change the number of requests per EGLD
     /// Can only be called by the owner
-    #[endpoint(changeNumCreditsPerEGLD)]
-    fn change_num_credits_per_egld(&self, new_num_credits_per_egld: BigUint) {
+    #[endpoint(changeNumRequestsPerEGLD)]
+    fn change_num_requests_per_egld(&self, new_num_requests_per_egld: BigUint) {
         let caller = self.blockchain().get_caller();
         let owner = self.blockchain().get_owner_address();
 
         require!(caller == owner, "Only the owner can change the exchange rate");
-        require!(new_num_credits_per_egld > 0, "Number of credits per EGLD must be non-zero");
+        require!(new_num_requests_per_egld > 0, "Number of requests per EGLD must be non-zero");
 
-        let old_value = self.num_credits_per_egld().get();
-        self.num_credits_per_egld().set(new_num_credits_per_egld.clone());
+        let old_value = self.num_requests_per_egld().get();
+        self.num_requests_per_egld().set(new_num_requests_per_egld.clone());
 
-        self.change_num_credits_per_egld_event(&old_value, &new_num_credits_per_egld);
+        self.change_num_requests_per_egld_event(&old_value, &new_num_requests_per_egld);
     }
 
-    /// Pause the contract - prevents new credits from being added
+    /// Pause the contract - prevents new requests from being added
     /// Can only be called by the owner
     #[endpoint(pause)]
     fn pause(&self) {
@@ -100,7 +100,7 @@ pub trait CreditsContract {
         self.pause_event();
     }
 
-    /// Unpause the contract - allows new credits to be added again
+    /// Unpause the contract - allows new requests to be added again
     /// Can only be called by the owner
     #[endpoint(unpause)]
     fn unpause(&self) {
@@ -134,40 +134,18 @@ pub trait CreditsContract {
         self.withdraw_event(&owner, &contract_balance);
     }
 
-    /// Migrate from old requests (requests keyed by ID) to new acquired_credits.
-    /// Can only be called by the owner.
-    #[endpoint(migrate)]
-    fn migrate(&self, start: u64, end: u64) {
-        let caller = self.blockchain().get_caller();
-        let owner = self.blockchain().get_owner_address();
-        require!(caller == owner, "Only the owner can migrate");
-        require!(self.is_paused().get(), "Contract must be paused to migrate");
-
-        for id in start..=end {
-            let old_val = self.old_requests(&id).get();
-            if old_val > BigUint::zero() {
-                 self.acquired_credits(&id).update(|credits| *credits += old_val.clone());
-                 self.old_requests(&id).clear();
-            }
-        }
-    }
-
-    /// Storage mapper for the old requests
-    #[storage_mapper("acquiredRequests")]
-    fn old_requests(&self, id: &u64) -> SingleValueMapper<BigUint>;
-
-    /// Event emitted when credits are added
-    #[event("addCredits")]
-    fn add_credits_event(
+    /// Event emitted when requests are added
+    #[event("addRequests")]
+    fn add_requests_event(
         &self,
         #[indexed] id: &u64,
         #[indexed] egld_amount: &BigUint,
-        credits_added: &BigUint,
+        requests_added: &BigUint,
     );
 
     /// Event emitted when the exchange rate is changed
-    #[event("changeNumCreditsPerEGLD")]
-    fn change_num_credits_per_egld_event(
+    #[event("changeNumRequestsPerEGLD")]
+    fn change_num_requests_per_egld_event(
         &self,
         #[indexed] old_value: &BigUint,
         new_value: &BigUint,
@@ -189,13 +167,13 @@ pub trait CreditsContract {
         amount: &BigUint,
     );
 
-    /// Storage mapper for the number of credits per EGLD
-    #[storage_mapper("numCreditsPerEgld")]
-    fn num_credits_per_egld(&self) -> SingleValueMapper<BigUint>;
+    /// Storage mapper for the number of requests per EGLD
+    #[storage_mapper("numRequestsPerEgld")]
+    fn num_requests_per_egld(&self) -> SingleValueMapper<BigUint>;
 
-    /// Storage mapper for acquired credits count per ID
-    #[storage_mapper("acquiredCredits")]
-    fn acquired_credits(&self, id: &u64) -> SingleValueMapper<BigUint>;
+    /// Storage mapper for acquired requests count per ID
+    #[storage_mapper("acquiredRequests")]
+    fn acquired_requests(&self, id: &u64) -> SingleValueMapper<BigUint>;
 
     /// Storage mapper for pause state
     #[storage_mapper("isPaused")]
